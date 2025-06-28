@@ -49,13 +49,9 @@ def remove_from_cart(request, product_id):
     return redirect('cart')
 
 
-def checkout(request):
-    request.session['cart'] = {}
-    messages.success(request, 'Заказ оформлен! (на будущее — тут будет запись в БД)')
-    return redirect('cart')
-
 from .models import Order, OrderItem
 from django.contrib.auth.decorators import login_required
+
 
 @login_required
 def checkout(request):
@@ -71,16 +67,17 @@ def checkout(request):
         OrderItem.objects.create(
             order=order,
             product=product,
-            quantity=quantity
+            price=product.price,
+            quantity=quantity,
         )
 
-    request.session['cart'] = {}  # очищаем корзину
+    request.session['cart'] = {}
     messages.success(request, 'Заказ оформлен!')
     return redirect('my_orders')
 
 @login_required
 def my_orders(request):
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).order_by('-created')
     return render(request, 'orders/my_orders.html', {'orders': orders})
 
 from django.shortcuts import render, redirect
