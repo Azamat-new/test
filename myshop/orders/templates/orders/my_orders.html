@@ -6,7 +6,7 @@
   {% for order in orders %}
     <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
       <strong>Заказ №{{ order.id }}</strong><br>
-      Дата: {{ order.created_at|date:"d.m.Y H:i" }}
+      Дата: {{ order.created|date:"d.m.Y H:i" }}
       <ul>
         {% for item in order.items.all %}
           <li>
