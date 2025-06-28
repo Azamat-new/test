@@ -17,13 +17,13 @@
         <strong>{{ item.product.name }}</strong>
         — {{ item.quantity }} шт.
         — {{ item.subtotal }} ₽
-        <a href="{% url 'remove_from_cart' item.product.id %}">Удалить</a>
+        <a href="{% url 'orders:remove_from_cart' item.product.id %}">Удалить</a>
       </li>
     {% endfor %}
   </ul>
   <p><strong>Итого:</strong> {{ total }} ₽</p>
 
-  <form method="post" action="{% url 'checkout' %}">
+  <form method="post" action="{% url 'orders:checkout' %}">
     {% csrf_token %}
     <button type="submit">Оформить заказ</button>
   </form>
